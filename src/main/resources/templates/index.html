@@ -4,28 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Página Principal</title>
-
-    <!-- https://releases.jquery.com/ -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
   </head>
   <body>
     <script>
-      $(document).ready(
-            function(){
-                $.ajax({
-                    url: "http://localhost:8080/projeto-api-rest/usuario/all",
-                    method: "GET"
-                }).then(function(data, status, info){
-
-                }).then((ajax) => {
-                    console.log("Retornando a requisição - CORS funcionando!");
-                })
+      function getUser() {
+        fetch("http://localhost:8080/projeto-api-rest/usuario/all")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Erro ao fazer a requisição: " + response.status);
             }
-        );
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Retorno da requisição:", data);
+          })
+          .catch((error) => {
+            console.error("Ocorreu um erro: ", error);
+          });
+      }
+      getUser();
     </script>
   </body>
 </html>
