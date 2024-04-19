@@ -41,6 +41,12 @@ public class IndexController {
     // http://localhost:8080/projeto-api-rest/usuario/create
     @PostMapping(value = "/create", produces = "application/json")
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+
+        // Associa o cadastro do telefone ao usuário
+        for(int pos=0; pos<usuario.getTelefones().size(); pos++){
+            usuario.getTelefones().get(pos).setUsuario(usuario);
+        }
+
         return new ResponseEntity<Usuario>(usuarioRepository.save(usuario), HttpStatus.CREATED);
     }
 
@@ -55,6 +61,12 @@ public class IndexController {
         newUsuario.setLogin(updateUsuario.getLogin());
         newUsuario.setSenha(updateUsuario.getSenha());
         newUsuario.setNome(updateUsuario.getNome());
+        newUsuario.setTelefones(updateUsuario.getTelefones());
+
+        // Associa o cadastro do telefone ao usuário
+        for(int pos=0; pos<updateUsuario.getTelefones().size(); pos++){
+            updateUsuario.getTelefones().get(pos).setUsuario(updateUsuario);
+        }
 
         return new ResponseEntity<Usuario>(usuarioRepository.save(newUsuario), HttpStatus.OK);
     }
